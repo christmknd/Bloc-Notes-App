@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import {
   IsDate,
   IsEnum,
@@ -9,6 +9,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Status } from '../enums/status-enum';
+import { Todolist } from '../../todolist/entities/todolist.entity';
 
 @Entity({ name: 'Task' })
 export class Task {
@@ -40,4 +41,7 @@ export class Task {
   })
   @IsDate()
   dueDate: Date;
+
+  @ManyToOne(() => Todolist, (todolist) => todolist.tasks)
+  todoList: Todolist;
 }

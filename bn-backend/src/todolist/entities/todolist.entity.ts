@@ -1,6 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import {User} from "../../users/entities/user.entity";
+import {Task} from "../../task/entities/task.entity";
 
 @Entity({ name: 'Todolist' })
 export class Todolist {
@@ -28,4 +30,10 @@ export class Todolist {
   @MinLength(3)
   @MaxLength(110)
   description: string;
+
+  @ManyToOne(() => User, (user) => user.todoLists)
+  user: User;
+
+  @OneToMany(() => Task, (task) => task.todoList)
+  tasks: Task[];
 }
