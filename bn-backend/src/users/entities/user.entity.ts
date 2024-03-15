@@ -1,7 +1,9 @@
-import {Column, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
-import {Todolist} from "../../todolist/entities/todolist.entity";
+import { Todolist } from '../../todolist/entities/todolist.entity';
 
+
+@Entity({ name: 'User' })
 export class User {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
@@ -22,5 +24,5 @@ export class User {
   password: string;
 
   @OneToMany(() => Todolist, (todolist) => todolist.user)
-  todoLists: Todolist[];
+  todolist: Todolist[];
 }

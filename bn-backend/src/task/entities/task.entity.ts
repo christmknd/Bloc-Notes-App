@@ -37,11 +37,10 @@ export class Task {
   @Column({ type: 'date' })
   @ApiProperty({
     description: 'End Date of the Task',
-    default: 2000,
   })
   @IsDate()
   dueDate: Date;
 
   @ManyToOne(() => Todolist, (todolist) => todolist.tasks)
-  todoList: Todolist;
+  todolist: Todolist;
 }
