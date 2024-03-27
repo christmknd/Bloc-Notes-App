@@ -1,6 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {IsEmail, IsEnum, IsNotEmpty, IsString, MinLength} from 'class-validator';
 import { Todolist } from '../../todolist/entities/todolist.entity';
+import {Role} from "../enums/role-num";
 
 
 @Entity({ name: 'User' })
@@ -22,6 +23,11 @@ export class User {
   @IsNotEmpty()
   @MinLength(8)
   password: string;
+
+  @Column({ type: 'enum', enum: Role, default: Role.User })
+  @IsEnum(Role)
+  roles: Role;
+
 
   @OneToMany(() => Todolist, (todolist) => todolist.user)
   todolist: Todolist[];
