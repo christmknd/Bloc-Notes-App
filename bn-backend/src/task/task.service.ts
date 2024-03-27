@@ -21,8 +21,6 @@ export class TaskService {
   }
 
   async findTaskById(id: number): Promise<Task> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const task = await this.taskRepository.findOneBy({ id: id });
     if (!task) {
       throw new NotFoundException(`Task with id ${id} not found`);
@@ -41,8 +39,6 @@ export class TaskService {
 
   async deleteTask(id: number): Promise<void> {
     const task = await this.taskRepository.findOneBy({ id: id });
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     if (!task) {
       throw new NotFoundException(`Task with id ${id} not found`);
     }
