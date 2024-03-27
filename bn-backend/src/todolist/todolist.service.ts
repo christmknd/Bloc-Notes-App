@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import { CreateTodolistDto } from './dto/create-todolist.dto';
 import { UpdateTodolistDto } from './dto/update-todolist.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Todolist } from './entities/todolist.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TodolistService {
-  create(createTodolistDto: CreateTodolistDto) {
-    return 'This action adds a new todolist';
+  constructor(
+    @InjectRepository(Todolist)
+    private todolistRepository: Repository<Todolist>,
+  ) {}
+  async createTodolist(
+    CreateTodolistDto: CreateTodolistDto,
+  ): Promise<Todolist> {
+    const todolist = this.todolistRepository.create(CreateTodolistDto);
+    return this.todolistRepository.save(todolist);
   }
 
-  findAll() {
-    return `This action returns all todolist`;
+  async findAllTodolists(): Promise<Todolist[]> {
+    return this.todolistRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todolist`;
+  async findTodolistById(id: number): Promise<Todolist> {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const todolist = await this.todolistRepository.findOneBy({ id: id });
+    if (!todolist) {
+      throw new NotFoundException(`Todolist with id ${id} not found`);
+    }
+    return todolist;
   }
 
-  update(id: number, updateTodolistDto: UpdateTodolistDto) {
-    return `This action updates a #${id} todolist`;
+  async updateTodolist(
+    id: number,
+    UpdateTodolistDto: UpdateTodolistDto,
+  ): Promise<Todolist> {
+    const todolist = await this.todolistRepository.findOneBy({ id: id });
+    if (!todolist) {
+      throw new NotFoundException(`Todolist with ID ${id} not found`);
+    }
+    Object.assign(todolist, UpdateTodolistDto);
+    return this.todolistRepository.save(todolist);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todolist`;
+  async deleteTodolist(id: number): Promise<void> {
+    const todolist = await this.todolistRepository.findOneBy({ id: id });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (!todolist) {
+      throw new NotFoundException(`Todolist with id ${id} not found`);
+    }
+    await this.todolistRepository.delete(todolist);
   }
 }
