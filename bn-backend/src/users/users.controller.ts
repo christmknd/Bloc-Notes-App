@@ -26,83 +26,83 @@ import { User } from './entities/user.entity';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiOperation({ summary: 'Create a new task' })
+  @ApiOperation({ summary: 'Create a new User' })
   @ApiBody({ type: CreateUserDto })
   @ApiResponse({
     status: 201,
-    description: 'Task created successfully',
+    description: 'User created successfully',
     type: User,
   })
-  @ApiBadRequestResponse({ description: 'Task cannot be registrated' })
+  @ApiBadRequestResponse({ description: 'User cannot be registrated' })
   @Post()
   create(@Body() CreateUserDto: CreateUserDto) {
     try {
       return this.usersService.createUser(CreateUserDto);
     } catch {
-      throw new BadRequestException('Task cannot be registrated');
+      throw new BadRequestException('User cannot be registrated');
     }
   }
 
-  @ApiOperation({ summary: 'Get all tasks' })
+  @ApiOperation({ summary: 'Get all Users' })
   @ApiResponse({
     status: 200,
-    description: 'Return all tasks',
+    description: 'Return all Users',
     type: User,
   })
-  @ApiNotFoundResponse({ description: 'No tasks were found' })
+  @ApiNotFoundResponse({ description: 'No Users were found' })
   @Get()
   findAll() {
     try {
       return this.usersService.findAllUser();
     } catch {
-      throw new NotFoundException('No tasks were found');
+      throw new NotFoundException('No Users were found');
     }
   }
 
-  @ApiOperation({ summary: 'Get task by ID' })
+  @ApiOperation({ summary: 'Get User by ID' })
   @ApiParam({ name: 'id', type: Number })
   @ApiResponse({
     status: 200,
-    description: 'Return task by ID',
+    description: 'Return User by ID',
     type: User,
   })
-  @ApiNotFoundResponse({ description: 'Task not found' })
+  @ApiNotFoundResponse({ description: 'User not found' })
   @Get(':id')
-  findTaskById(@Param('id') id: number) {
+  findUserById(@Param('id') id: number) {
     try {
       return this.usersService.findUserById(+id);
     } catch {
-      throw new NotFoundException('Task not found');
+      throw new NotFoundException('User not found');
     }
   }
 
-  @ApiOperation({ summary: 'Update task by ID' })
+  @ApiOperation({ summary: 'Update User by ID' })
   @ApiParam({ name: 'id', type: Number })
   @ApiBody({ type: UpdateUserDto })
   @ApiResponse({
     status: 200,
-    description: 'Task updated successfully',
+    description: 'User updated successfully',
     type: User,
   })
   @ApiNotFoundResponse({
-    description: 'Task not found : Task cannot be updated',
+    description: 'User not found : User cannot be updated',
   })
   @Patch(':id')
   update(@Param('id') id: number, @Body() UpdateUserDto: UpdateUserDto) {
     try {
       return this.usersService.updateUser(+id, UpdateUserDto);
     } catch {
-      throw new NotFoundException('Task not found : Task cannot be updated');
+      throw new NotFoundException('User not found : User cannot be updated');
     }
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete task by ID' })
+  @ApiOperation({ summary: 'Delete User by ID' })
   delete(@Param('id') id: number) {
     try {
       return this.usersService.deleteUser(+id);
     } catch {
-      throw new NotFoundException('Task not found : Task cannot be deleted');
+      throw new NotFoundException('User not found : User cannot be deleted');
     }
   }
 }
