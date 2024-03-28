@@ -37,9 +37,12 @@ export class Todolist {
   @MaxLength(110)
   description: string;
 
-  @ManyToOne(() => User, (user) => user.todolist)
+  
+  @ManyToOne(() => User, (user) => user.todolist , { lazy: true })
+  @ApiProperty({ type: () => User })
   user: User;
 
   @OneToMany(() => Task, (task) => task.todolist)
+  @ApiProperty({ type: () => Task })
   tasks: Task[];
 }

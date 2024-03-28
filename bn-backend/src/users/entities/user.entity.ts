@@ -2,6 +2,7 @@ import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {IsEmail, IsEnum, IsNotEmpty, IsString, MinLength} from 'class-validator';
 import { Todolist } from '../../todolist/entities/todolist.entity';
 import {Role} from "../enums/role-num";
+import {ApiProperty} from "@nestjs/swagger";
 
 
 @Entity({ name: 'User' })
@@ -29,6 +30,7 @@ export class User {
   roles: Role;
 
 
-  @OneToMany(() => Todolist, (todolist) => todolist.user)
+  @OneToMany(() => Todolist, (todolist) => todolist.user , { lazy: true })
+  @ApiProperty({ type: () => Todolist })
   todolist: Todolist[];
 }

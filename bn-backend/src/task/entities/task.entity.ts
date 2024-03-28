@@ -10,6 +10,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { Status } from '../enums/status-enum';
 import { Todolist } from '../../todolist/entities/todolist.entity';
+import {User} from "../../users/entities/user.entity";
 
 @Entity({ name: 'Task' })
 export class Task {
@@ -42,5 +43,6 @@ export class Task {
   dueDate: Date;
 
   @ManyToOne(() => Todolist, (todolist) => todolist.tasks)
+  @ApiProperty({ type: () => Todolist })
   todolist: Todolist;
 }

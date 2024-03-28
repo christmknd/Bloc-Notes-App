@@ -7,7 +7,7 @@ import { TodolistModule } from './todolist/todolist.module';
 import { AuthModule } from './auth/auth.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import config from './orm.config';
-import {TypeOrmModule} from "@nestjs/typeorm";
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
